@@ -1,0 +1,92 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Библиотека" Height="600" Width="1000" Loaded="WindowLoaded">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Книги">
+                <StackPanel>
+                    <DataGrid x:Name="BooksDataGrid" AutoGenerateColumns="True" SelectionMode="Single" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID книги" Binding="{Binding ID}" />
+                            <DataGridTextColumn Header="Название"  Binding="{Binding Title}" />
+                            <DataGridTextColumn Header="Год публикации" Binding="{Binding YearPublished}"/>
+                            <DataGridTextColumn Header="ID автора" Binding="{Binding AuthorID}"/>
+                            <DataGridTextColumn Header="ID жанра" Binding="{Binding GenreID}"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="EditRowBook" CommandParameter="{Binding Path=ID}" >Изменить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="DeleteRowBook" CommandParameter="{Binding Path=ID}" >Удалить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить книгу" Click="AddBook" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Авторы">
+                <StackPanel>
+                    <DataGrid x:Name="AuthorsDataGrid" AutoGenerateColumns="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID автора" Binding="{Binding ID}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Имя Фамилия" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Биография" Binding="{Binding Biography}"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="EditRowAuthor" CommandParameter="{Binding Path=ID}" >Изменить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="DeleteRowAuthor" CommandParameter="{Binding Path=ID}" >Удалить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить автора" Click="AddAuthor" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Жанры">
+                <StackPanel>
+                    <DataGrid x:Name="GenresDataGrid" AutoGenerateColumns="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID жанра" Binding="{Binding ID}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="EditRowGenre" CommandParameter="{Binding Path=ID}" >Изменить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="DeleteRowGenre" CommandParameter="{Binding Path=ID}" >Удалить</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить жанр" Click="AddGenre"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
+
