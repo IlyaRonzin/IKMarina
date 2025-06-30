@@ -13,25 +13,51 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp2{
-  public partial class AddGenreWindow : Window{
-    public AddGenreWindow(){
+namespace WpfApp2
+{
+  /// <summary>
+  /// Логика взаимодействия для AddGenreWindow.xaml
+  /// </summary>
+  public partial class AddGenreWindow : Window
+  {
+    /// <summary>
+    /// Инициализирует новый экземпляр класса AddGenreWindow
+    /// </summary>
+    public AddGenreWindow()
+    {
       InitializeComponent();
     }
-    private void SaveButton_Click(object sender, RoutedEventArgs e){
-      SqlConnection connection;
 
-      string connectionString = "Server=(localdb)\\mssqllocaldb;Database=library;Trusted_Connection=True;";
-
-      connection = new SqlConnection(connectionString);
-
-      connection.Open();
-      SqlCommand command = new SqlCommand(String.Format("UPDATE genre SET genre_name = N'{0}', description = N'{1}' WHERE genre_ID = '{2}'", GenreTextBox.Text,DescriptionTextBox.Text,GenreIDTextBox.Text), connection);
-      command.ExecuteNonQuery();
-
-      connection.Close();
-
-      this.DialogResult = true; 
+    /// <summary>
+    /// Обрабатывает событие нажатия кнопки "Сохранить" для обновления данных жанра в базе
+    /// </summary>
+    /// <param name="sender">Источник события</param>
+    /// <param name="e">Данные события</param>
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+      try
+      {
+        using (SqlConnection connection = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=library;Trusted_Connection=True;"))
+        {
+          connection.Open();
+          SqlCommand command = new SqlCommand(
+            "UPDATE genre SET genre_name = @genreName, description = @description WHERE genre_ID = @genreID",
+            connection);
+          command.Parameters.AddWithValue("@genreName", GenreTextBox.Text);
+          command.Parameters.AddWithValue("@description", DescriptionTextBox.Text);
+          command.Parameters.AddWithValue("@genreID", int.Parse(GenreIDTextBox.Text));
+          command.ExecuteNonQuery();
+        }
+        this.DialogResult = true;
+      }
+      catch (SqlException ex)
+      {
+        MessageBox.Show($"Ошибка базы данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+      catch (FormatException ex)
+      {
+        MessageBox.Show($"Ошибка ввода: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
     }
   }
 }

@@ -14,7 +14,7 @@
             <TextBox x:Name="AuthorNameTextBox"/>
             <Label Content="Биография:"/>
             <TextBox x:Name="BiographyTextBox"/>
-            <Button Content="Сохранить" Click="SaveButton_Click"/>
+            <Button Content="Сохранить" Click="SaveButtonClick"/>
         </StackPanel>
     </Grid>
 </Window>

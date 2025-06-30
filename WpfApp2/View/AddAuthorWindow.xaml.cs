@@ -13,26 +13,47 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp2{
-  public partial class AddAuthorWindow : Window{
-    public AddAuthorWindow(){
+namespace WpfApp2
+{
+  /// <summary>
+  /// Логика взаимодействия для AddAuthorWindow.xaml
+  /// </summary>
+  public partial class AddAuthorWindow : Window
+  {
+    /// <summary>
+    /// Инициализирует новый экземпляр класса AddAuthorWindow
+    /// </summary>
+    public AddAuthorWindow()
+    {
       InitializeComponent();
     }
 
-    private void SaveButtonClick(object sender, RoutedEventArgs e){
-      SqlConnection connection; 
-
-      string connectionString = "Server=(localdb)\\mssqllocaldb;Database=library;Trusted_Connection=True;";
-
-      connection = new SqlConnection(connectionString);
-
-      connection.Open();
-      SqlCommand command = new SqlCommand(String.Format("UPDATE author SET author_name = N'{0}', biography = N'{1}' WHERE author_ID = '{2}'", AuthorNameTextBox.Text,BiographyTextBox.Text, AuthorIDTextBox.Text), connection);
-      command.ExecuteNonQuery();
-
-      connection.Close();
-
-      this.DialogResult = true;
+    /// <summary>
+    /// Обрабатывает событие нажатия кнопки "Сохранить" для обновления данных автора в базе
+    /// </summary>
+    /// <param name="sender">Источник события</param>
+    /// <param name="e">Данные события</param>
+    private void SaveButtonClick(object sender, RoutedEventArgs e)
+    {
+      try
+      {
+        using (SqlConnection connection = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=library;Trusted_Connection=True;"))
+        {
+          connection.Open();
+          SqlCommand command = new SqlCommand(
+            "UPDATE author SET author_name = @authorName, biography = @biography WHERE author_ID = @authorID",
+            connection);
+          command.Parameters.AddWithValue("@authorName", AuthorNameTextBox.Text);
+          command.Parameters.AddWithValue("@biography", BiographyTextBox.Text);
+          command.Parameters.AddWithValue("@authorID", AuthorIDTextBox.Text);
+          command.ExecuteNonQuery();
+        }
+        this.DialogResult = true;
+      }
+      catch (SqlException ex)
+      {
+        MessageBox.Show($"Ошибка базы данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
     }
   }
 }

@@ -23,7 +23,7 @@ namespace WpfApp2
 
     private void ClickAddAuthor(object sender, RoutedEventArgs e){
       int newAuthorId = Database.AddNewAuthor();
-      AddBookWindow editWindow = new AddBookWindow();
+      AddAuthorWindow editWindow = new AddAuthorWindow();
       editWindow.AuthorIDTextBox.Text = newAuthorId.ToString();
       editWindow.ShowDialog();
       Database.UpdateGrid(BooksDataGrid, AuthorsDataGrid, GenresDataGrid);

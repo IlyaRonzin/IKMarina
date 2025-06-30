@@ -29,7 +29,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="Добавить книгу" Click="AddBook" />
+                    <Button Content="Добавить книгу" Click="ClickAddBook" />
                 </StackPanel>
             </TabItem>
 
@@ -56,7 +56,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="Добавить автора" Click="AddAuthor" />
+                    <Button Content="Добавить автора" Click="ClickAddAuthor" />
                 </StackPanel>
             </TabItem>
 
@@ -83,10 +83,9 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="Добавить жанр" Click="AddGenre"/>
+                    <Button Content="Добавить жанр" Click="ClickAddGenre"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>
 </Window>
-
